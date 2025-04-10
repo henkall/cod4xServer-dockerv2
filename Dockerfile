@@ -19,7 +19,11 @@ WORKDIR /home/cod4/gamefiles
 # Adding files from github
 COPY --chown=1000 cod4/script.sh /home/cod4/
 # Adding user "cod4" and setting permissions
-RUN useradd --system cod4 --home /home/cod4 --uid 1000 && \
+ARG UNAME=cod4
+ARG UID=1000
+ARG GID=100
+RUN groupadd -g $GID $UNAME
+RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
     chsh -s /bin/bash cod4 && \
     chown -R cod4 /home/cod4 && \
     chmod -R 777 /home/cod4 && \
