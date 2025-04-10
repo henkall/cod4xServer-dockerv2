@@ -21,8 +21,8 @@ COPY --chown=1000 cod4/script.sh /home/cod4/
 # Adding user "cod4" and setting permissions
 ARG UNAME=cod4
 ARG UID=1000
-ARG GID=100
-RUN groupadd -g $GID $UNAME
+ARG GID=1000
+RUN groupadd -g $GID -o $UNAME
 RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
     chsh -s /bin/bash cod4 && \
     chown -R cod4 /home/cod4 && \
