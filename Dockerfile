@@ -20,7 +20,8 @@ RUN apt-get update && \
         gcc-multilib g++-multilib \
         unzip curl xz-utils nano \
         libpng-dev libjpeg-dev libfreetype6-dev \
-        libzip-dev zlib1g-dev && \
+        libzip-dev zlib1g-dev \
+        libcurl4-openssl-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install mysqli gd zip curl mbstring && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
