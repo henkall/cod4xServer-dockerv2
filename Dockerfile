@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM romeoz/docker-apache-php
 # Running options to COD4 server
 ENV READY=""
 ENV PORT="28960"
@@ -6,29 +6,25 @@ ENV MODNAME=""
 ENV MAP="+map_rotate"
 ENV EXTRA=""
 ENV SERVERTYPE=""
-ENV EXECFILE=""
+ENV EXECFILE="server.cfg"
 ENV PUID="1000"
 ENV PGID="100"
 ENV GETGAMEFILES="0"
 # Setting a volume
-VOLUME ["/home/cod4/gamefiles/"]
+VOLUME ["/root/gamefiles/"]
+# Ports to webgui
+EXPOSE 443 80
 # Installing dependencies
 RUN apt-get update && \
-    apt-get install -y gcc-multilib g++-multilib unzip curl xz-utils
-WORKDIR /home/cod4/gamefiles
+    apt-get install -y gcc-multilib g++-multilib unzip curl xz-utils nano && \
+    rm -f /var/cache/apk/*
 # Adding files from github
-COPY --chown=1000 cod4/script.sh /home/cod4/
-# Adding user "cod4" and setting permissions
-ARG UNAME=cod4
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -g $GID -o $UNAME
-RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
-    chsh -s /bin/bash cod4 && \
-    chown -R cod4 /home/cod4 && \
-    chmod -R 777 /home/cod4 && \
-    chown -R cod4 /home/cod4/gamefiles && \
-    chmod -R 777 /home/cod4/gamefiles && \
+COPY cod4/script.sh /root
+COPY cod4/entrypoint.sh /root
+# Running with root
+RUN chmod -R 2777 /root && \
     # Making file executable
-    chmod +x /home/cod4/script.sh
-ENTRYPOINT ["/bin/bash","/home/cod4/script.sh"]
+    chmod +x /root/script.sh && \
+    chmod +x /root/entrypoint.sh
+WORKDIR /root/gamefiles
+ENTRYPOINT ["/root/entrypoint.sh"]
