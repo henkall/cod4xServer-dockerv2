@@ -51,8 +51,6 @@ services:
       # Remember to change.
       - <path/to/appdata>/coddash/database:/var/lib/mysql
       - <path/to/appdata>/coddash/dbinitfile:/docker-entrypoint-initdb.d
-    ports:
-      - 3307:3306
     environment:
       # Remember to change.
       MYSQL_ROOT_PASSWORD: password
