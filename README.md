@@ -30,13 +30,11 @@ services:
       # Lav flere hvis mere end en server. (Todo WIP)
       - 0.0.0.0:28960:28960/udp
     environment:
-      - READY=YES
       - EXECFILE=server.cfg
       - SERVERTYPE=1
       - PORT=28960
       - MAP=+map_rotate
       - EXTRA=+set sv_authorizemode -1
-      - GETGAMEFILES=1
       # Remember to change (Same as MYSQL_ROOT_PASSWORD).
 	  - SQLPASSWORD=password
     volumes:
